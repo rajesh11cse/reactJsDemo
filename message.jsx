@@ -55,7 +55,7 @@ class Message extends React.Component {
                 <div className="col-md-12" style={{ backgroundColor: '#e2e2e2' }}>
                     <div className="form-group">
                         <label>Message : </label>
-                        <textarea type="text" ref="myMessage" className="form-control"
+                        <textarea style={{maxWidth:'100%'}} type="text" ref="myMessage" className="form-control"
                             placeholder="Message" />
                     </div>
 

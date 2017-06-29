@@ -17,9 +17,8 @@ class Http extends React.Component {
             responseType: 'application/json'
         })
         getData.then(function (response) {
-            var arr = mythis.state.messages;
-            arr.push(response.data.message);
-            mythis.setState({ messages: arr[0] });
+            mythis.state.messages = response.data.message;
+            mythis.setState({ messages: mythis.state.messages});
         })
         getData.catch(function (error) {
             console.log(error);
