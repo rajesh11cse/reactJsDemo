@@ -6,7 +6,7 @@ ul {
     margin: 0;
     padding: 0;
     
-    background-color: lightgray;
+    background-color: none;
     position: relative;
     height: 100%;
     overflow: auto;
@@ -25,6 +25,24 @@ li a.active {
 }
 
 li a:hover:not(.active) {
-    background-color: #555;
+    background-color: #6b8ebf;
     color: white;
 }
+
+
+/* hOME PAGE PANALS*/
+.panel-primary:hover{
+            outline: none;
+border-color: #4E4E52;
+box-shadow: 0 0 5px #4E4E52;
+}
+
+/*Table Css for Get Appointment, Recognized patient list and User Admin*/
+/*----------------------------------------------------------------------*/
+.zceaTable { padding:0; margin:0; border-collapse:collapse; background:#fff;}
+.zceaTable thead th { background:#1E90FF; padding:10px 10px; color:#fff; text-align:left; font-weight:bold; border-left:1px solid #D4D4D4; border-right:1px solid #D4D4D4; border-top:1px solid #D4D4D4; border-bottom:1px solid #D4D4D4; text-transform:capitalize;}
+.zceaTable tbody,
+.zceaTable thead { border-left:1px solid #EAECEE; border-right:1px solid #EAECEE;}
+.zceaTable tbody td,
+.zceaTable tbody th { padding:10px; border-left:1px solid #D4D4D4; border-right:1px solid #D4D4D4; border-top:1px solid #D4D4D4; border-bottom:1px solid #D4D4D4;}
+.zceaTable tbody tr:hover{background:#fff}
