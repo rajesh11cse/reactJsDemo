@@ -13,6 +13,7 @@ import NotFound from './pageNotFound.jsx';
 
 
 import ManageUsers from './manage_users.jsx';
+import ManageBooks from './manage_books.jsx';
 
 
 
@@ -33,6 +34,7 @@ import {Router, Route, IndexRoute, hashHistory } from 'react-router';
          <Route path = "/contact" component = {Contact} />
 
          <Route path = "/lms/manage_users" component = {ManageUsers} />
+         <Route path = "/lms/manage_books" component = {ManageBooks} />
          
          <Route path='*' component={NotFound} />
 

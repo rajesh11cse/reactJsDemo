@@ -17,6 +17,7 @@ class Header extends React.Component {
             <div className="collapse navbar-collapse">
               <ul className="nav navbar-nav">
                 <li> <a href="#/lms/manage_users">Manage Users</a>  </li>
+                <li> <a href="#/lms/manage_books">Manage Books</a>  </li>
                {/* <li> <a href="#/lms/manage_books">Manage Library Books</a> </li>
                 <li> <a href="#/lms/issue_return_books">Issue/Return Library Books</a>  </li>
                 <li> <a href="#/lms/library_transactions">Manage Library Transactions</a>  </li>*/}

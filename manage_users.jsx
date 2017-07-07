@@ -1,6 +1,6 @@
 import React from 'react';
-import mydata from './users.json';
 import { Pagination } from 'react-bootstrap';
+import axios from 'axios';
 class ManageUsers extends React.Component {
 
     constructor(props) {
@@ -17,7 +17,10 @@ class ManageUsers extends React.Component {
             unameValid: false,
             formValid: false,
             showUserForm: false,
-            mydata2: mydata
+            users: [],
+            totalUsers: 0,
+            maxPageButton: 5,
+            activePage: 1
         }
     }
 
@@ -31,25 +34,22 @@ class ManageUsers extends React.Component {
         switch (fieldName) {
             case 'email':
                 emailValid = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
-                fieldValidationErrors.email = emailValid ? '' : 'Email address is invalid';
+                fieldValidationErrors.email = emailValid ? '' : 'Email address is invalid.';
                 break;
 
             case 'name':
                 nameValid = value.length >= 3;
-                this.mydata.map(function (item) {
-                    <div>{item}</div>
-                })
-                fieldValidationErrors.name = nameValid ? '' : 'Full name is required';
+                fieldValidationErrors.name = nameValid ? '' : 'Full name is required.';
                 break;
 
             case 'uname':
                 unameValid = value.length >= 3;
-                fieldValidationErrors.uname = unameValid ? '' : 'User name is required';
+                fieldValidationErrors.uname = unameValid ? '' : 'User name is required.';
                 break;
 
             case 'phone':
                 phoneValid = value.length >= 10 && value.length <= 10;
-                fieldValidationErrors.phone = phoneValid ? '' : 'Phone number is invalid';
+                fieldValidationErrors.phone = phoneValid ? '' : 'Phone number is invalid.';
                 break;
 
             default:
@@ -87,6 +87,118 @@ class ManageUsers extends React.Component {
         this.setState({ showUserForm: !this.state.showUserForm });
     }
 
+    createUser() {
+        var myData = {
+            usrName: this.state.uname,
+            name: this.state.name,
+            email: this.state.email,
+            contactNumber: this.state.phone,
+        }
+
+        var mythis = this;
+        var getData = axios({
+            method: 'POST',
+            url: 'http://localhost:3000/api/lms/add_usrs',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            responseType: 'application/json',
+            data: myData
+        })
+        getData.then(function (response) {
+            if (response.data.result == 'success') {
+                mythis.setState({ showUserForm: !mythis.state.showUserForm });
+                mythis.getUsers(mythis.state.activePage, mythis.state.maxPageButton);
+            }
+        })
+        getData.catch(function (error) {
+            console.log(error);
+        });
+
+
+    }
+
+
+    componentDidMount() {
+        this.getUsers(this.state.activePage, this.state.maxPageButton);
+    }
+
+    getUsers(pageNo, limit) {
+        var myData = {
+            pageNumber: pageNo,
+            limit: limit,
+        }
+
+        var mythis = this;
+        var getData = axios({
+            method: 'POST',
+            url: 'http://localhost:3000/api/lms/get_usrs',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            responseType: 'application/json',
+            data: myData
+        })
+        getData.then(function (response) {
+            mythis.setState({ users: response.data.data, totalUsers: response.data.count });
+        })
+        getData.catch(function (error) {
+            console.log(error);
+        });
+
+    }
+
+
+    removeUser(id) {
+
+        if (window.confirm('Delete ?')) {
+            var myData = {
+                id: id,
+            }
+
+            var mythis = this;
+            var getData = axios({
+                method: 'DELETE',
+                url: 'http://localhost:3000/api/lms/remove_usr',
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                responseType: 'application/json',
+                data: myData
+            })
+            getData.then(function (response) {
+                if (response.data.result == 'success') {
+                    console.log("Removed")
+                    mythis.getUsers(mythis.state.activePage, mythis.state.maxPageButton);
+                }
+            })
+            getData.catch(function (error) {
+                console.log(error);
+            });
+        }
+
+    }
+
+    searchUser(query) {
+        if (query.length >= 3) {
+
+            var mythis = this;
+            var getData = axios({
+                method: 'GET',
+                url: 'http://localhost:3000/api/lms/search_user?query=' + query,
+                headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                responseType: 'application/json',
+            })
+            getData.then(function (response) {
+                if (response.data.result == 'success') {
+                    mythis.setState({ users: response.data.data, totalUsers: response.data.length });
+                }
+            })
+            getData.catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+
+
+    cancelSearch() {
+        this.getUsers(this.state.activePage, this.state.maxPageButton);
+    }
+
     render() {
         return (
             <div>
@@ -114,7 +226,12 @@ class ManageUsers extends React.Component {
                     }}
                         className="container">
 
-                        {!this.state.showUserForm ? <UserTable tableData={this.state.mydata2} /> :
+                        {!this.state.showUserForm ? <UserTable
+                            getUsers={this.getUsers.bind(this)}
+                            removeUser={this.removeUser.bind(this)}
+                            cancelSearch={this.cancelSearch.bind(this)}
+                            searchUser={this.searchUser.bind(this)}
+                            totalUsers={this.state.totalUsers} tableData={this.state.users} /> :
 
                             <div>
 
@@ -161,7 +278,7 @@ class ManageUsers extends React.Component {
 
                                     {/*Submit */}
                                     <div className={`col-md-12`}>
-                                        <button type="submit" className=" col-md-12 btn btn-primary" disabled={!this.state.formValid}>
+                                        <button onClick={this.createUser.bind(this)} type="button" className=" col-md-12 btn btn-primary" disabled={!this.state.formValid}>
                                             Sign up
                                     </button>
                                     </div>
@@ -178,26 +295,75 @@ class ManageUsers extends React.Component {
 
 
 
-
-
 class UserTable extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            maxPageButton : 3,
-            activePage : 1
+            maxPageButton: 5,
+            activePage: 1,
+            searchuser: ''
         };
+
     }
 
-    pageChange(pageNumber){
-        console.log(pageNumber)
-        this.setState({activePage : pageNumber})
+    pageChange(pageNumber) {
+        this.setState({ activePage: pageNumber })
+        this.props.getUsers(pageNumber, this.state.maxPageButton)
+    }
+
+    removeUser(id) {
+        this.setState({ activePage: 1 })
+        this.props.removeUser(id)
+    }
+
+
+    searchUser() {
+        var query = this.refs.searchuser.value;
+        this.props.searchUser(query)
+    }
+
+
+    cancelSearch() {
+        this.refs.searchuser.value = '';
+        this.props.cancelSearch()
+    }
+
+    errorClass(dataLn) {
+        if (dataLn > 0) {
+            return '';
+        } else {
+            return 'hidden';
+        }
+    }
+
+
+    showError(dataLn) {
+        if (dataLn > 0) {
+            return 'hidden';
+        } else {
+            return '';
+        }
     }
 
     render() {
         return (
             <div >
-                <Pagination
+                {/*User Name */}
+                <div className='input-group'>
+                    <input ref="searchuser" defaultValue={this.state.searchuser} style={{ color: 'green', fontSize: '16px' }}
+                        type="text" className="form-control" placeholder='Search user by username or mobile number' />
+                    <span className="input-group-btn">
+                        <button type="button" className="btn btn-info btn" onClick={this.searchUser.bind(this)}>
+                            <i className="glyphicon glyphicon-search"></i> Search</button>
+                        <button type="button" className="btn btn-danger btn" onClick={this.cancelSearch.bind(this)}>
+                            <i className="glyphicon glyphicon-remove"></i> Cancel</button>
+                    </span>
+                </div>
+                <hr />
+                <div style={{color:'red'} }className={` ${this.showError(this.props.tableData.length)}`}>
+                    <center>No user found in database.</center>
+                </div>
+                {/*  <Pagination
                     className="pull-right"
                     prev
                     next
@@ -205,15 +371,15 @@ class UserTable extends React.Component {
                     last
                     ellipsis
                     boundaryLinks
-                    items={this.props.tableData.length}
+                    items={Math.ceil(this.props.totalUsers / this.state.maxPageButton)}
                     maxButtons={this.state.maxPageButton}
                     activePage={this.state.activePage}
-                    onSelect={this.pageChange.bind(this)} />
-                <table className="zceaTable" summary="Sample Table" style={{ width: "100%" }}>
+                    onSelect={this.pageChange.bind(this)} />*/}
+                <table className={`zceaTable ${this.errorClass(this.props.tableData.length)}`} summary="Sample Table" style={{ width: "100%" }}>
                     <thead style={{ border: "2px solid #1E90FF" }}>
                         <tr>
                             <th scope="col">Sl. No.</th>
-                            <th scope="col">User Id</th>
+                           {/* <th scope="col">User Id</th>*/}
                             <th scope="col">User Name</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email Address</th>
@@ -224,14 +390,14 @@ class UserTable extends React.Component {
                     <tbody>
                         {this.props.tableData.map((message, i) =>
                             <tr key={i} scope="row">
-                                <td>{i + 1}</td>
-                                <td>{message.id}</td>
-                                <td>{message.uname}</td>
+                                <td>{i + 1 + this.state.maxPageButton * (this.state.activePage - 1)}</td>
+                                {/*<td>{message._id}</td>*/}
+                                <td>{message.usrName}</td>
                                 <td>{message.name}</td>
                                 <td>{message.email}</td>
-                                <td>{message.phone}</td>
+                                <td>{message.contactNumber}</td>
                                 <td>
-                                    <button type="button" className="btn btn-danger btn-xs">
+                                    <button type="button" onClick={this.removeUser.bind(this, message._id)} className="btn btn-danger btn-xs">
                                         <i className="glyphicon glyphicon-trash"></i> Remove</button>
                                 </td>
                             </tr>
@@ -239,14 +405,14 @@ class UserTable extends React.Component {
                     </tbody>
                 </table>
                 <Pagination
-                    className="pull-right"
+                    className={`pull-right ${this.errorClass(this.props.tableData.length)}`}
                     prev
                     next
                     first
                     last
                     ellipsis
                     boundaryLinks
-                    items={this.props.tableData.length}
+                    items={Math.ceil(this.props.totalUsers / this.state.maxPageButton)}
                     maxButtons={this.state.maxPageButton}
                     activePage={this.state.activePage}
                     onSelect={this.pageChange.bind(this)} />
@@ -254,17 +420,6 @@ class UserTable extends React.Component {
         );
     }
 }
-
-
-/*var userForm = React.createClass({
-    render: function() {
-        return (
-            <div >
-                Some Results
-            </div>
-        );
-    }
-})*/
 
 
 
@@ -280,7 +435,6 @@ const FormErrors = ({ formErrors }) =>
             }
         })}
     </div>
-
 
 
 export default ManageUsers;

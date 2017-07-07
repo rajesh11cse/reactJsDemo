@@ -23,7 +23,7 @@ class Home extends React.Component {
                 <section className="content">
                     <section style={{
                         border: "1px solid #3C6EB4",
-                        backgroundColor: '#fff', height: '55px', color: 'black', padding: '17'
+                        backgroundColor: '#fff', height: '55px', color: 'black', padding: 17
                     }} className="container">
                         <b className="">Dashboard</b>
                         <b className="pull-right">{this.state.date.toUTCString()}</b>
@@ -33,7 +33,7 @@ class Home extends React.Component {
                 <section className="content">
                     <div style={{
                         border: "1px solid #3C6EB4", backgroundColor: '#fff',
-                        color: 'black', padding: '18'
+                        color: 'black', padding: 18
                     }}
                         className="container">
 
@@ -47,7 +47,7 @@ class Home extends React.Component {
                                 </div>
                                 <div className="panel-body" style={{ backgroundColor: "#F7F8FA" }}>
                                     <div className="col-md-2">
-                                        <a href="#!/lms/manage_users"><img src="images/lms.png" width="90" alt="image not found" /></a>
+                                        <a href="#/lms/manage_users"><img src="images/lms.png" width="90" alt="image not found" /></a>
                                     </div>
                                 </div>
                             </div>
@@ -59,12 +59,12 @@ class Home extends React.Component {
                             <div className="panel panel-primary" style={{ color: "#8C8B8B", fontStyle: "italic" }}>
                                 <div className="panel-heading">
                                     <p className="panel-title">
-                                        <a href="#!/lms/manage_users">********************</a>
+                                        <a href="#/lms/manage_books">Manage Library Books</a>
                                     </p>
                                 </div>
                                 <div className="panel-body" style={{ backgroundColor: "#F7F8FA" }}>
                                     <div className="col-md-2">
-                                        <a href="#!/lms/manage_users"><img src="images/lms.png" width="90" alt="image not found" /></a>
+                                        <a href="#/lms/manage_books"><img src="images/lms.png" width="90" alt="image not found" /></a>
                                     </div>
                                 </div>
                             </div>
