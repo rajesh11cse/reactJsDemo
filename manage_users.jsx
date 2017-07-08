@@ -379,7 +379,7 @@ class UserTable extends React.Component {
                     <thead style={{ border: "2px solid #1E90FF" }}>
                         <tr>
                             <th scope="col">Sl. No.</th>
-                           {/* <th scope="col">User Id</th>*/}
+                            <th scope="col">User Id</th>
                             <th scope="col">User Name</th>
                             <th scope="col">Name</th>
                             <th scope="col">Email Address</th>
@@ -391,7 +391,7 @@ class UserTable extends React.Component {
                         {this.props.tableData.map((message, i) =>
                             <tr key={i} scope="row">
                                 <td>{i + 1 + this.state.maxPageButton * (this.state.activePage - 1)}</td>
-                                {/*<td>{message._id}</td>*/}
+                                <td>{message.usrId}</td>
                                 <td>{message.usrName}</td>
                                 <td>{message.name}</td>
                                 <td>{message.email}</td>
@@ -399,6 +399,8 @@ class UserTable extends React.Component {
                                 <td>
                                     <button type="button" onClick={this.removeUser.bind(this, message._id)} className="btn btn-danger btn-xs">
                                         <i className="glyphicon glyphicon-trash"></i> Remove</button>
+                                        &nbsp;&nbsp;<button type="button" className="btn btn-info btn-xs">
+                                        <i className="glyphicon glyphicon-edit"></i> Edit</button>
                                 </td>
                             </tr>
                         )}

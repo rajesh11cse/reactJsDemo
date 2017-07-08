@@ -14,8 +14,7 @@ import NotFound from './pageNotFound.jsx';
 
 import ManageUsers from './manage_users.jsx';
 import ManageBooks from './manage_books.jsx';
-
-
+import IssueReturnLibraryBooks from './issue_return_books.jsx';
 
 
 import {Router, Route, IndexRoute, hashHistory } from 'react-router';
@@ -35,6 +34,7 @@ import {Router, Route, IndexRoute, hashHistory } from 'react-router';
 
          <Route path = "/lms/manage_users" component = {ManageUsers} />
          <Route path = "/lms/manage_books" component = {ManageBooks} />
+         <Route path = "/lms/issue_return_books" component = {IssueReturnLibraryBooks} />
          
          <Route path='*' component={NotFound} />
 

@@ -76,12 +76,12 @@ class Home extends React.Component {
                             <div className="panel panel-primary" style={{ color: "#8C8B8B", fontStyle: "italic" }}>
                                 <div className="panel-heading">
                                     <p className="panel-title">
-                                        <a href="#!/lms/manage_users">********************</a>
+                                        <a href="#/lms/issue_return_books">Issue/Return Library Books</a>
                                     </p>
                                 </div>
                                 <div className="panel-body" style={{ backgroundColor: "#F7F8FA" }}>
                                     <div className="col-md-2">
-                                        <a href="#!/lms/manage_users"><img src="images/lms.png" width="90" alt="image not found" /></a>
+                                        <a href="#/lms/issue_return_books"><img src="images/lms.png" width="90" alt="image not found" /></a>
                                     </div>
                                 </div>
                             </div>
