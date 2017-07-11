@@ -205,7 +205,7 @@ class ManageBooks extends React.Component {
 
                                 <p className="pull-right" style={{ color: 'red', fontStyle: 'italic' }}>
                                     (*) fileds are required.</p>
-                                <h2>Add a book here..</h2>
+                                <h2 style={{color:'#757474'}}>Add a book here..</h2>
 
                                 {/*Error message*/}
                                 <p className="col-md-12 pull-right" style={{ color: 'red' }}>
@@ -214,7 +214,7 @@ class ManageBooks extends React.Component {
 
 
 
-                                <div className="row">
+                                <div className="row" style={{color:'grey'}}>
                                     {/*Book Name */}
                                     <div className={`form-group col-md-12 ${this.errorClass(this.state.formErrors.bname)}`}>
                                         <label htmlFor="bname">Book Name <em style={{ color: 'red' }}>*</em></label>

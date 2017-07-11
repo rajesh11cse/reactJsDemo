@@ -237,7 +237,7 @@ class ManageUsers extends React.Component {
 
                                 <p className="pull-right" style={{ color: 'red', fontStyle: 'italic' }}>
                                     (*) fileds are required.</p>
-                                <h2>User Registration Form</h2>
+                                <h2 style={{color:'#757474'}}>User Registration Form</h2>
 
                                 {/*Error message*/}
                                 <p className="col-md-12 pull-right" style={{ color: 'red' }}>
@@ -246,7 +246,7 @@ class ManageUsers extends React.Component {
 
 
 
-                                <div className="row">
+                                <div className="row" style={{color:'grey'}}>
                                     {/*Full Name */}
                                     <div className={`form-group col-md-12 ${this.errorClass(this.state.formErrors.name)}`}>
                                         <label htmlFor="name">Full Name <em style={{ color: 'red' }}>*</em></label>
@@ -279,7 +279,7 @@ class ManageUsers extends React.Component {
                                     {/*Submit */}
                                     <div className={`col-md-12`}>
                                         <button onClick={this.createUser.bind(this)} type="button" className=" col-md-12 btn btn-primary" disabled={!this.state.formValid}>
-                                            Sign up
+                                            Submit
                                     </button>
                                     </div>
                                 </div>
@@ -350,7 +350,7 @@ class UserTable extends React.Component {
             <div >
                 {/*User Name */}
                 <div className='input-group'>
-                    <input ref="searchuser" defaultValue={this.state.searchuser} style={{ color: 'green', fontSize: '16px' }}
+                    <input ref="searchuser" defaultValue={this.state.searchuser} style={{ borderRadius:'0px', color: 'green', fontSize: '16px' }}
                         type="text" className="form-control" placeholder='Search user by username or mobile number' />
                     <span className="input-group-btn">
                         <button type="button" className="btn btn-info btn" onClick={this.searchUser.bind(this)}>
